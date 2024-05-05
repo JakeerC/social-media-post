@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import AuthButtonClient from "../AuthButton.client";
 
 export default async function LogIn() {
-  const supabase = createServerComponentClient({ cookies: cookies });
+  const supabase = createServerComponentClient<Database>({ cookies: cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();

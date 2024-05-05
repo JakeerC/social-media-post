@@ -7,12 +7,12 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function AuthButtonClient({
+export default function AuthButtonClient<Database>({
   session,
 }: {
   session: Session | null;
 }) {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
   const handleSignOut = async () => {
