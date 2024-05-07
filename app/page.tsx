@@ -4,6 +4,7 @@ import AuthButtonServer from "./AuthButton.server";
 import { redirect } from "next/navigation";
 import { profile } from "console";
 import NewTweet from "./NewTweet";
+import Like from "./Like";
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -13,7 +14,7 @@ export default async function Home() {
   } = await supabase.auth.getSession();
   const { data: tweets } = await supabase
     .from("tweets")
-    .select("*, profiles(*)");
+    .select("*, profiles(*), likes(*)");
 
   if (!session) {
     redirect("/login");
@@ -29,6 +30,8 @@ export default async function Home() {
         >
           <p>{tweet?.profiles?.name.replaceAll('"', "")}</p>
           <p>{tweet?.title}</p>
+          <hr />
+          <Like tweet={tweet} />
         </div>
       ))}
       <pre className="">{JSON.stringify(tweets, null, 2)}</pre>
