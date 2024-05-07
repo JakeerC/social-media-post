@@ -12,13 +12,22 @@ export default async function Home() {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  const { data: tweets } = await supabase
-    .from("tweets")
-    .select("*, profiles(*), likes(*)");
-
   if (!session) {
     redirect("/login");
   }
+  const { data } = await supabase
+    .from("tweets")
+    .select("*, profiles(*), likes(*)");
+
+  const tweets =
+    data?.map((tweet) => ({
+      ...tweet,
+      user_has_likes_tweet: !!tweet.likes.find(
+        (like) => like.user_id === session.user.id
+      ),
+
+      likes: tweet.likes.length,
+    })) ?? [];
   return (
     <main className="flex min-h-screen flex-col items-center  p-12">
       <AuthButtonServer />
