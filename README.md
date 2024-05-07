@@ -232,7 +232,7 @@ const { data } = await supabase
 
   currently user can add as many likes as he can but can't unlike
 
-### Like/Unlike
+### Like & Unlike
 
 - Add an extra property on tweets data `user_has_liked_tweet`
 
@@ -268,4 +268,44 @@ const toggleLike = async () => {
     }
   }
 };
+```
+
+### Declare Global Intersection Types for Transformed Supabase Data with Typescript
+
+> [!TIP]
+>
+> We can rename properties from select, for example
+>
+> ```ts
+> const { data } = await supabase
+>   .from("tweets")
+>   .select("*, author:profiles(*), likes(user_id)");
+>
+> // we can access profiles property from author
+> ```
+
+Create an intersection type for Like props
+
+```ts
+type Tweet = Database["public"]["Tables"]["tweets"]["Row"];
+type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+type TweetWithAuthor = Tweet & {
+  author: Profile;
+  likes: number;
+  user_has_likes_tweet: boolean;
+};
+```
+
+Now page file may contain type errors , resolve this by [!editing](#Like & Unlike)
+
+```ts {4,5,6}
+const tweets =
+  data?.map((tweet) => ({
+    ...tweet,
+    author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
+    user_has_likes_tweet: !!tweet.likes.find(
+      (like) => like.user_id === session.user.id
+    ),
+    likes: tweet.likes.length,
+  })) ?? [];
 ```

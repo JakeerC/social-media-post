@@ -3,8 +3,15 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
-//@ts-ignore
-export default function Like({ tweet }) {
+type Tweet = Database["public"]["Tables"]["tweets"]["Row"];
+type Profile = Database["public"]["Tables"]["profiles"]["Row"];
+type TweetWithAuthor = Tweet & {
+  author: Profile;
+  likes: number;
+  user_has_likes_tweet: boolean;
+};
+
+export default function Like({ tweet }: { tweet: TweetWithAuthor }) {
   const router = useRouter();
   const toggleLike = async () => {
     const supabase = createClientComponentClient();
@@ -21,7 +28,7 @@ export default function Like({ tweet }) {
       } else {
         await supabase
           .from("likes")
-          .insert({ user_id: user.id, tweet_id: tweet?.id });
+          .insert({ user_id: user.id, tweet_id: tweet.id });
         router.refresh(); //dont refresh , as it re-paints entire page
       }
     }
@@ -29,7 +36,7 @@ export default function Like({ tweet }) {
 
   return (
     <button className="flex gap-2" onClick={toggleLike}>
-      <span className="w-8">{tweet?.likes} </span>
+      <span className="w-8">{tweet.likes} </span>
       <LikeIcon liked={tweet.user_has_likes_tweet} /> <span>Like</span>
     </button>
   );
