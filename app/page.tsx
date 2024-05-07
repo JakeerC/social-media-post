@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import AuthButtonServer from "./AuthButton.server";
 import { redirect } from "next/navigation";
 import { profile } from "console";
+import NewTweet from "./NewTweet";
 
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -18,8 +19,18 @@ export default async function Home() {
     redirect("/login");
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12">
+    <main className="flex min-h-screen flex-col items-center  p-12">
       <AuthButtonServer />
+      <NewTweet />
+      {tweets?.map((tweet) => (
+        <div
+          key={tweet.id}
+          className="m-2 bg-gray-300 border border-slate-500 p-4 rounded-md min-w-[40ch]"
+        >
+          <p>{tweet?.profiles?.name.replaceAll('"', "")}</p>
+          <p>{tweet?.title}</p>
+        </div>
+      ))}
       <pre className="">{JSON.stringify(tweets, null, 2)}</pre>
     </main>
   );
