@@ -28,7 +28,7 @@ export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
       </p>
       <p>{tweet?.title}</p>
       <hr />
-      <Like tweet={tweet} />
+      <Like tweet={tweet} addOptimisticTweet={addOptimisticTweet} />
     </div>
   ));
 }
