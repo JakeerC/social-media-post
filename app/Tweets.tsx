@@ -1,7 +1,21 @@
+"use client";
+
+import { useOptimistic } from "react";
 import Like from "./Like";
 
 export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
-  return tweets.map((tweet) => (
+  const [optimisticTweets, addOptimisticTweet] = useOptimistic<
+    TweetWithAuthor[],
+    TweetWithAuthor
+  >(tweets, (currentOptimisticTweets, newTweet) => {
+    const newOptimisticTweets = [...currentOptimisticTweets];
+    const index = newOptimisticTweets.findIndex(
+      (tweet) => tweet.id === newTweet.id
+    );
+    newOptimisticTweets[index] = newTweet;
+    return newOptimisticTweets;
+  });
+  return optimisticTweets.map((tweet) => (
     <div
       key={tweet.id}
       className="m-2 bg-gray-300 border border-slate-500 rounded-md min-w-[40ch]"
