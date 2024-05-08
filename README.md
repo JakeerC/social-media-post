@@ -309,3 +309,37 @@ const tweets =
     likes: tweet.likes.length,
   })) ?? [];
 ```
+
+## Step 6: Realtime tweets
+
+- ⚡️ Enable database publications for tweets table
+
+  > In Supabase goto `Database` -> `Publications` (previously `Realtime`) -> in table click on tables in last column -> Enable for `tweets` table
+
+- Add this code to tweets component, to subscribe to tweets
+
+```ts
+const router = useRouter();
+const supabase = createClientComponentClient();
+
+useEffect(() => {
+  const channel = supabase
+    .channel("realtime tweets")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        table: "tweets",
+      },
+      (payload) => {
+        router.refresh();
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}, []);
+```
