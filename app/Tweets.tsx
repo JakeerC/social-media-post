@@ -19,15 +19,16 @@ export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
   return optimisticTweets.map((tweet) => (
     <div
       key={tweet.id}
-      className="border border-gray-800 border-t-0 px-4 py-4 flex flex-col justify-between m-0"
+      className="border border-gray-800 border-t-0 px-4 py-4 flex flex-col justify-between m-0 "
     >
       <div className="flex flex-[0.8] min-h-16">
-        <div className="bg-red-200 h-8 w-8 rounded-full">
+        <div className="bg-gray-200 h-8 w-8 rounded-full">
           <Image
             src={tweet.author.avatar_url.replaceAll('"', "")}
             alt="user avatar"
             width={32}
             height={32}
+            className="rounded-full"
           />
         </div>
         <div className="ml-4 flex-1">

@@ -30,6 +30,7 @@ export default function TweetForm({
             alt="user avatar"
             width={48}
             height={48}
+            className="rounded-full"
           />
         </div>
         <textarea
