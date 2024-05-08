@@ -60,7 +60,6 @@ const LikeIcon = ({ liked }: { liked: boolean }) => (
     viewBox="0 0 48 48"
     version="1"
     xmlns="http://www.w3.org/2000/svg"
-    enable-background="new 0 0 48 48"
   >
     <path
       fill={liked ? "#F44336" : "none"}
