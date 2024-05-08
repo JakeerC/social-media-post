@@ -16,7 +16,8 @@ export default async function Home() {
   }
   const { data } = await supabase
     .from("tweets")
-    .select("*, author:profiles(*), likes(user_id)");
+    .select("*, author:profiles(*), likes(user_id)")
+    .order("created_at", { ascending: false });
 
   const tweets =
     data?.map((tweet) => ({
