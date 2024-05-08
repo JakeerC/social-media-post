@@ -1,27 +1,19 @@
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
+import { User, createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import Image from "next/image";
+import TweetForm from "./TweetForm";
 
-export default function NewTweet() {
+export default function NewTweet({ user }: { user: User }) {
   const addTweet = async (formData: FormData) => {
     "use server";
     const title = String(formData.get("title"));
-    const supabase = createServerActionClient<Database>({ cookies: cookies });
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
+
+    if (title) {
+      const supabase = createServerActionClient<Database>({ cookies: cookies });
       await supabase.from("tweets").insert({ title: title, user_id: user.id });
       revalidatePath("/");
     }
   };
-  return (
-    <form action={addTweet}>
-      <input
-        name="title"
-        type="text"
-        className="bg-inherit border-gray-200 border min-w-[40ch] min-h-[10ch] bg-slate-300 rounded-md "
-      />
-    </form>
-  );
+  return <TweetForm addTweet={addTweet} user={user} />;
 }

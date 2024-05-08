@@ -20,16 +20,9 @@ export default function AuthButtonClient<Database>({
     router.refresh();
   };
 
-  const handleSignIn = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: { redirectTo: "http://localhost:3000/auth/callback" },
-    });
-  };
-
-  return session ? (
-    <button onClick={handleSignOut}>LogOut</button>
-  ) : (
-    <button onClick={handleSignIn}>LogIn</button>
+  return (
+    <button className={"text-xs text-gray-400"} onClick={handleSignOut}>
+      LogOut
+    </button>
   );
 }

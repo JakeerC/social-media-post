@@ -2,9 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import AuthButtonServer from "./AuthButton.server";
 import { redirect } from "next/navigation";
-import { profile } from "console";
 import NewTweet from "./NewTweet";
-import Like from "./Like";
 import Tweets from "./Tweets";
 
 export default async function Home() {
@@ -31,9 +29,12 @@ export default async function Home() {
       likes: tweet.likes.length,
     })) ?? [];
   return (
-    <main className="flex min-h-screen flex-col items-center  p-12">
-      <AuthButtonServer />
-      <NewTweet />
+    <main className="w-full max-w-xl mx-auto">
+      <div className="flex justify-between px-4 py-6 border-b  border-gray-800">
+        <h1 className="text-xl font-bold">Home</h1>
+        <AuthButtonServer />
+      </div>
+      <NewTweet user={session.user} />
       <Tweets tweets={tweets} />
       {/* <pre className="">{JSON.stringify(tweets, null, 2)}</pre> */}
     </main>

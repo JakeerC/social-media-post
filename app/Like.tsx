@@ -43,17 +43,20 @@ export default function Like({
   };
 
   return (
-    <button className="flex gap-2" onClick={toggleLike}>
-      <span className="w-8">{tweet.likes} </span>
-      <LikeIcon liked={tweet.user_has_likes_tweet} /> <span>Like</span>
+    <button
+      className="flex gap-2 items-center text-xs my-2"
+      onClick={toggleLike}
+    >
+      <LikeIcon liked={tweet.user_has_likes_tweet} />{" "}
+      <span className="">{tweet.likes} </span>
     </button>
   );
 }
 
 const LikeIcon = ({ liked }: { liked: boolean }) => (
   <svg
-    width="24px"
-    height="24px"
+    width="16px"
+    height="16px"
     viewBox="0 0 48 48"
     version="1"
     xmlns="http://www.w3.org/2000/svg"
@@ -61,8 +64,8 @@ const LikeIcon = ({ liked }: { liked: boolean }) => (
   >
     <path
       fill={liked ? "#F44336" : "none"}
-      stroke={"#F44336"}
-      strokeWidth={4}
+      stroke={liked ? "#F44336" : "#eee"}
+      strokeWidth={3}
       d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24 C46,14.4,40.6,9,34,9z"
     />
   </svg>
