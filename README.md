@@ -314,8 +314,8 @@ const tweets =
 
 - ⚡️ Enable database publications for tweets table
 
-  > [!TIP]
-  > In Supabase goto `Database` -> `Publications` (previously `Realtime`) -> in table click on tables in last column -> Enable for `tweets` table
+> [!TIP]
+> In Supabase goto `Database` -> `Publications` (previously `Realtime`) -> in table click on tables in last column -> Enable for `tweets` table
 
 - Add this effect to `Tweets` component, to subscribe to `tweets` table
 
