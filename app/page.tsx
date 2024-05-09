@@ -5,6 +5,7 @@ import NewTweet from "./NewTweet";
 import Tweets from "./Tweets";
 import LogOut from "./Logout";
 
+export const dynamic = "force-dynamic";
 export default async function Home() {
   const supabase = createServerComponentClient<Database>({ cookies });
 

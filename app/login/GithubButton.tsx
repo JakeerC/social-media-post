@@ -21,7 +21,7 @@ export default function GithubButton() {
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
-      options: { redirectTo: "http://localhost:3000/auth/callback" },
+      options: { redirectTo: `${location.origin}/auth/callback` },
     });
   };
   return (

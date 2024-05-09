@@ -193,7 +193,8 @@ const addTweet = async (formData: FormData) => {
   2.  [ ] Authenticated users can insert like (Insert)
   3.  [ ] Authenticated users can delete like (Delete)
 
-> [!TIP] Run Supabase cli comman to update database types
+> [!TIP]
+> Run Supabase cli comman to update database types
 
 ### Add Like button
 
@@ -344,3 +345,26 @@ useEffect(() => {
   };
 }, []);
 ```
+
+## Step 6 : Deploy to Vercel/Cloud
+
+- Change `localhost` to `location.origin` and force dynamic wherever using `cookies` from headers.
+
+```ts
+export const dynamic = "force-dynamic";
+// localhost to domain
+
+// "http://localhost:3000/auth/callback" → `${location.origin}/auth/callback`
+```
+
+- run `npm run build` to check successful build
+
+> [!TIP]
+>
+> If you get issue regarding `location` , run
+>
+> ```node
+> npm i -D encoding
+> ```
+
+- Change `localhost` to `domain` after deployment in Supabase and github oAuth application
