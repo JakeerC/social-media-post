@@ -1,9 +1,9 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import NewTweet from "./NewTweet";
-import Tweets from "./Tweets";
-import LogOut from "./Logout";
+import NewTweet from "../components/NewTweet";
+import Tweets from "../components/Tweets";
+import LogOut from "../components/Logout";
 
 export const dynamic = "force-dynamic";
 export default async function Home() {
