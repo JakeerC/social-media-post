@@ -1,6 +1,6 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabaseClient } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
 export default function Like({
@@ -12,10 +12,9 @@ export default function Like({
 }) {
   const router = useRouter();
   const toggleLike = async () => {
-    const supabase = createClientComponentClient<Database>();
     const {
       data: { user },
-    } = await supabase.auth.getUser();
+    } = await supabaseClient.auth.getUser();
     if (user) {
       if (tweet.user_has_likes_tweet) {
         addOptimisticTweet({
@@ -23,7 +22,7 @@ export default function Like({
           likes: tweet.likes - 1,
           user_has_likes_tweet: !tweet.user_has_likes_tweet,
         });
-        await supabase.from("likes").delete().match({
+        await supabaseClient.from("likes").delete().match({
           user_id: user.id,
           tweet_id: tweet?.id,
         });
@@ -34,7 +33,7 @@ export default function Like({
           likes: tweet.likes + 1,
           user_has_likes_tweet: !tweet.user_has_likes_tweet,
         });
-        await supabase
+        await supabaseClient
           .from("likes")
           .insert({ user_id: user.id, tweet_id: tweet.id });
         router.refresh(); //dont refresh , as it re-paints entire page

@@ -3,8 +3,8 @@
 import { useEffect, useOptimistic } from "react";
 import Like from "./Like";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import { supabaseClient } from "@/lib/supabase";
 
 export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
   const [optimisticTweets, addOptimisticTweet] = useOptimistic<
@@ -19,10 +19,9 @@ export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
     return newOptimisticTweets;
   });
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
   useEffect(() => {
-    const channel = supabase
+    const channel = supabaseClient
       .channel("realtime tweets")
       .on(
         "postgres_changes",
@@ -38,7 +37,7 @@ export default function Tweets({ tweets }: { tweets: TweetWithAuthor[] }) {
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabaseClient.removeChannel(channel);
     };
   }, []);
 

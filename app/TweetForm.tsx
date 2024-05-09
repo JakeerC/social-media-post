@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useRef, useState } from "react";
 
@@ -12,7 +11,7 @@ export default function TweetForm({
   user: User;
 }) {
   const ref = useRef<HTMLFormElement>(null);
-  const [text, setText] = useState<string>("");
+  const [tweet, setTweet] = useState<string>("");
 
   return (
     <form
@@ -34,7 +33,7 @@ export default function TweetForm({
           />
         </div>
         <textarea
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => setTweet(e.target.value)}
           name="title"
           maxLength={255}
           placeholder="What is happening..."
@@ -42,7 +41,7 @@ export default function TweetForm({
         />
       </div>
       <button
-        disabled={!text}
+        disabled={!tweet}
         type="submit"
         className="bg-blue-400 text-white px-4 py-1 mr-4 mb-4 rounded-full self-end disabled:bg-blue-200 disabled:text-gray-900 disabled:cursor-not-allowed "
       >
